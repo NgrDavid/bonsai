@@ -32,7 +32,7 @@ jobs:
   # As such we build the matrix programmatically in its own job and feed it into `build-and-test`.
   create-build-matrix:
     name: Create Build Matrix
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     outputs:
       matrix: ${{steps.create-matrix.outputs.matrix}}
     steps:
@@ -190,7 +190,7 @@ jobs:
   # =====================================================================================================================================================================
   determine-changed-packages:
     name: Detect changed packages
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     # We technically only need the dummy build jobs, but GitHub Actions lacks the ability to depend on specific jobs in a matrix
     needs: build-and-test
     if: github.event_name != 'pull_request' && vars.ENABLE_PACKAGE_COMPARISON == 'true'
@@ -231,7 +231,7 @@ jobs:
   # =====================================================================================================================================================================
   publish-github:
     name: Publish to GitHub
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       # Needed to attach files to releases
       contents: write
@@ -308,7 +308,7 @@ jobs:
   # =====================================================================================================================================================================
   publish-packages-nuget-org:
     name: Publish to NuGet.org
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     environment: PublicRelease
     needs: [build-and-test, determine-changed-packages]
     # Release builds always publish packages to NuGet.org
@@ -374,7 +374,7 @@ jobs:
   # =====================================================================================================================================================================
   finish-up-release:
     name: Finish up release
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       # Needed to bump tags and version numbers
       contents: write
