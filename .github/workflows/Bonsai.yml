@@ -80,6 +80,16 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Setup Mono
+        if: matrix.platform.rid == 'linux-x64'
+        # Derived from https://github.com/actions/runner-images/blob/ae99c16b0cf27c0cca7ef0b08e7bcf13c33f6cfa/images/ubuntu/scripts/build/install-mono.sh
+        run: |
+          curl -fsSL https://download.mono-project.com/repo/xamarin.gpg | sudo gpg --dearmor -o /usr/share/keyrings/mono-official-stable.gpg
+          echo "deb [signed-by=/usr/share/keyrings/mono-official-stable.gpg] https://download.mono-project.com/repo/ubuntu stable-focal main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends apt-transport-https mono-complete nuget
+          mono --version
+
       # Legacy .NET command line tools are only used for building the installer
       - name: Setup MSBuild command line
         if: matrix.create-installer
