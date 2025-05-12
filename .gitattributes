@@ -22,7 +22,7 @@
 *.yml text
 
 # Prevent GitHub from hiding designer files from PRs
-*.Designer.cs text -linguist-generated
+*.Designer.cs text linguist-generated=false
 
 # Code
 *.manifest text
